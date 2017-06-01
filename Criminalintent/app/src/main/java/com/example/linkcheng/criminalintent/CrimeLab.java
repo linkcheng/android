@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 /**
- * Created by zhenglong on 2017/5/14.
+ * Created by link on 2017/5/14.
  */
 
 public class CrimeLab {
@@ -39,7 +39,7 @@ public class CrimeLab {
 
     public Crime getCrime(UUID id) {
         for (Crime c : mCrimes) {
-            if (c.getmId() == id) {
+            if (c.getmId().equals(id)) {
                 return c;
             }
         }

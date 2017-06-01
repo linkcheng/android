@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
- * Created by zhenglong on 2017/5/7.
+ * Created by link on 2017/5/7.
  */
 
 public class Crime {
@@ -45,5 +45,10 @@ public class Crime {
         // 生成唯一标识符
         mId = UUID.randomUUID();
         mDate = new Date();
+    }
+
+    @Override
+    public String toString() {
+        return mTitle;
     }
 }

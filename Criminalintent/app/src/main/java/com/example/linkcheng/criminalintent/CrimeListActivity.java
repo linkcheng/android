@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 
 /**
- * Created by zhenglong on 2017/5/15.
+ * Created by link on 2017/5/15.
  */
 
 public class CrimeListActivity extends SingleFragmentActivity {
