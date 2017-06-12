@@ -1,6 +1,7 @@
 package com.example.linkcheng.criminalintent;
 
 import android.annotation.TargetApi;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -58,16 +59,18 @@ public class CrimeFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
-    @TargetApi(11)
+    @TargetApi(20)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_crime, parent, false);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            ActionBar actionBar = ((CrimePagerActivity) getActivity()).getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(true);
-                actionBar.setHomeButtonEnabled(true);
+            if (NavUtils.getParentActivityName(getActivity()) != null) {
+                ActionBar actionBar = ((CrimePagerActivity) getActivity()).getSupportActionBar();
+                if (actionBar != null) {
+                    actionBar.setDisplayHomeAsUpEnabled(true);
+                    actionBar.setHomeButtonEnabled(true);
+                }
             }
         }
 
@@ -133,6 +136,13 @@ public class CrimeFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+//                Intent intent = new Intent(getActivity(), CrimeListActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(intent);
+//                getActivity().finish();
+                if (NavUtils.getParentActivityName(getActivity()) != null) {
+                    NavUtils.navigateUpFromSameTask(getActivity());
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
