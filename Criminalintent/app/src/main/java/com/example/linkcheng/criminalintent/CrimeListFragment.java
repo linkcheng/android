@@ -3,6 +3,7 @@ package com.example.linkcheng.criminalintent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
@@ -115,6 +116,10 @@ public class CrimeListFragment extends ListFragment {
                 Intent intent = new Intent(getActivity(), CrimePagerActivity.class);
                 intent.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getmId());
                 startActivityForResult(intent, 0);
+                return true;
+            case R.id.menu_item_show_subtitle:
+                ActionBar actionBar = ((CrimeListActivity) getActivity()).getSupportActionBar();
+                actionBar.setSubtitle(R.string.subtitle);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

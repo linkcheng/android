@@ -52,15 +52,15 @@ public class CrimePagerActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-
+                Crime crime = mCrimes.get(position);
+                if (crime.getmTitle() != null) {
+                    setTitle(crime.getmTitle());
+                }
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                Crime crime = mCrimes.get(state);
-                if (crime.getmTitle() != null) {
-                    setTitle(crime.getmTitle());
-                }
+
             }
         });
 
