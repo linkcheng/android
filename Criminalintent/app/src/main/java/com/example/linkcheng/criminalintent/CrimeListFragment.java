@@ -3,14 +3,15 @@ package com.example.linkcheng.criminalintent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
@@ -36,7 +37,9 @@ public class CrimeListFragment extends ListFragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             MyHold hold = null;
             if (convertView == null) {
-                convertView = getActivity().getLayoutInflater().inflate(R.layout.list_item_crime, null);
+                // 无法设置item高度
+                // convertView = getActivity().getLayoutInflater().inflate(R.layout.list_item_crime, null);
+                convertView = LayoutInflater.from(getActivity()).inflate(R.layout.list_item_crime, parent, false);
                 hold = new MyHold();
                 hold.title = (TextView) convertView.findViewById(R.id.crime_list_item_titleTextView);
                 hold.data = (TextView) convertView.findViewById(R.id.crime_list_item_dateTextView);
@@ -73,15 +76,20 @@ public class CrimeListFragment extends ListFragment {
 //                mCrimes);
         CrimeAdapter adapter = new CrimeAdapter(mCrimes);
         setListAdapter(adapter);
+    }
 
-//        RecyclerView rv;
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = super.onCreateView(inflater, container, savedInstanceState);
+
+        ListView listView = (ListView) v.findViewById(android.R.id.list);
+        registerForContextMenu(listView);
+        return v;
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-//        Crime c = (Crime)(getListAdapter()).getItem(position);
         Crime c = ((CrimeAdapter) getListAdapter()).getItem(position);
-//        Log.d(TAG, c.getmTitle() + "was clicked");
         // start another
         Intent intent = new Intent(getActivity(), CrimePagerActivity.class);
         intent.putExtra(CrimeFragment.EXTRA_CRIME_ID, c.getmId());
@@ -117,13 +125,39 @@ public class CrimeListFragment extends ListFragment {
                 intent.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getmId());
                 startActivityForResult(intent, 0);
                 return true;
-            case R.id.menu_item_show_subtitle:
-                ActionBar actionBar = ((CrimeListActivity) getActivity()).getSupportActionBar();
-                actionBar.setSubtitle(R.string.subtitle);
-                return true;
+//            case R.id.menu_item_show_subtitle:
+//                ActionBar actionBar = ((CrimeListActivity) getActivity()).getSupportActionBar();
+//                actionBar.setSubtitle(R.string.subtitle);
+//                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getActivity().getMenuInflater().inflate(R.menu.crime_list_item_context, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+        int position = info.position;
+        CrimeAdapter adapter = (CrimeAdapter) getListAdapter();
+        Crime crime = adapter.getItem(position);
+
+        switch (item.getItemId()) {
+            case R.id.menu_item_delete_crime:
+                CrimeLab.get(getActivity()).deleteCrime(crime);
+                adapter.notifyDataSetChanged();
+                return true;
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    @Override
+    public void registerForContextMenu(View view) {
+        super.registerForContextMenu(view);
     }
 }

@@ -16,18 +16,25 @@
 
     <TextView
         android:id="@+id/crime_list_item_titleTextView"
-        android:layout_width="match_parent"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:maxWidth="300dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:text="crime title"
-        android:layout_marginLeft="20dp"/>
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"/>
 
     <TextView
         android:id="@+id/crime_list_item_dateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:text="crime date" />
 
 </RelativeLayout>
